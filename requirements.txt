@@ -39,7 +39,7 @@ jedi
 Jinja2
 joblib
 jsonschema
-jsonschema-specifications==
+jsonschema-specifications
 jupyter_client
 jupyter_core
 keras
