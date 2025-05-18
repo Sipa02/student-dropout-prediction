@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import streamlit as st
 import pandas as pd
 import joblib
@@ -57,7 +56,7 @@ if uploaded_file is not None:
 else:
     st.info("Silakan upload file .csv yang sesuai format.")
 
-=======
+
 import streamlit as st
 import pandas as pd
 import joblib
@@ -116,4 +115,4 @@ if uploaded_file is not None:
 else:
     st.info("Silakan upload file .csv yang sesuai format.")
 
->>>>>>> 73785cb1afdf56925da9ab13b9dc91a2bfc3bd9e
+
