@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Proyek Akhir: Menyelesaikan Permasalahan Perusahaan Edutech
 
 ## Business Understanding
@@ -138,3 +139,6 @@ Proyek ini berhasil mencapai tujuan utama yaitu:
 
 4. **Manfaatkan Model Prediktif untuk Identifikasi Risiko Dropout**:
    - Terapkan model prediktif yang menggabungkan fitur-fitur utama (overall approval rate, approval rate semester 2, admission grade) dalam dashboard manajemen agar pengambilan keputusan berbasis data lebih cepat dan tepat sasaran.
+=======
+# student-dropout-prediction
+>>>>>>> 73785cb1afdf56925da9ab13b9dc91a2bfc3bd9e
