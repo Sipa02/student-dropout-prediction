@@ -11,7 +11,7 @@ encoder_mother_edu = joblib.load("label_encoder_mother_edu.joblib")
 encoder_father_edu = joblib.load("label_encoder_father_edu.joblib")
 
 # Inject encoder yang sudah di-load ke preprocessing
-def preprocess_with_loaded_encoders(df):
+def preprocess_with_loaded_encoders(df, le_target=None, le_app_group=None, le_mother_edu=None, le_father_edu=None, is_training=True):
     df_processed = preprocess_for_model(
         df,
         # le_target=encoder_target,
