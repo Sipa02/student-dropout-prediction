@@ -14,7 +14,7 @@ encoder_father_edu = joblib.load("label_encoder_father_edu.joblib")
 def preprocess_with_loaded_encoders(df):
     df_processed = preprocess_for_model(
         df,
-        le_target=encoder_target,
+        # le_target=encoder_target,
         le_app_group=encoder_app_group,
         le_mother_edu=encoder_mother_edu,
         le_father_edu=encoder_father_edu,
