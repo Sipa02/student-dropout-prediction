@@ -2,16 +2,9 @@ import streamlit as st
 import pandas as pd
 import joblib
 from preprocessing import preprocess_for_model
-from model import load_model
-
-# Load encoder
-encoder_app_group = joblib.load('label_encoder_app_group.joblib')
-encoder_mother_edu = joblib.load('label_encoder_mother_edu.joblib')
-encoder_father_edu = joblib.load('label_encoder_father_edu.joblib')
-encoder_target = joblib.load('label_encoder_target.joblib')
 
 # Load model
-model = load_model()
+model = joblib.load('best_rf_model.joblib')
 
 st.title("Student Status Prediction App")
 
@@ -19,7 +12,7 @@ st.title("Student Status Prediction App")
 with st.form("prediction_form"):
     admission_grade = st.number_input("Admission grade", min_value=0.0, max_value=200.0, step=0.1)
     age_at_enrollment = st.number_input("Age at enrollment", min_value=15, max_value=100, step=1)
-    
+
     # Academic data
     first_enrolled = st.number_input("1st sem enrolled", min_value=1, step=1)
     first_eval = st.number_input("1st sem evaluations", min_value=0, step=1)
@@ -42,8 +35,9 @@ with st.form("prediction_form"):
     mother_edu = st.number_input("Mother's qualification", min_value=1, max_value=44, step=1)
     father_edu = st.number_input("Father's qualification", min_value=1, max_value=44, step=1)
 
-    # Target (untuk training / testing data, bisa abaikan di produksi)
-    target = st.selectbox("Target", encoder_target.classes_.tolist())
+    # Target (untuk training/testing, bisa diabaikan saat produksi)
+    encoder_target = joblib.load('label_encoder_target.joblib')
+    target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
 
     submitted = st.form_submit_button("Predict")
 
@@ -60,7 +54,7 @@ if submitted:
             "Curricular units 2nd sem (approved)": second_approved,
             "Marital status": marital_status,
             "Application mode": application_mode,
-            "Daytime/evening attendance\t": attendance,
+            "Daytime/evening attendance": attendance,  # removed \t
             "Gender": gender,
             "International": international,
             "Scholarship holder": scholarship,
@@ -72,11 +66,14 @@ if submitted:
         }
 
         input_df = pd.DataFrame([input_data])
+        # Rename column to match model expectation
+        input_df.rename(columns={"Daytime/evening attendance": "Daytime/evening attendance\t"}, inplace=True)
+
         processed_df = preprocess_for_model(input_df)
         prediction = model.predict(processed_df)
 
         decoded_prediction = encoder_target.inverse_transform(prediction)
-        st.success(f"Predicted Student Status: {decoded_prediction[0]}")
+        st.success(f"🎯 Predicted Student Status: **{decoded_prediction[0]}**")
 
     except Exception as e:
-        st.error(f"Terjadi error saat memproses prediksi: {str(e)}")
+        st.error(f"🚨 Terjadi error saat memproses prediksi: {str(e)}")
