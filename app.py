@@ -89,7 +89,7 @@ if submitted:
         prediction = model.predict(processed_df)
 
         status_mapping = {0: "Dropout", 1: "Enrolled", 2: "Graduate"}
-        decoded_prediction = status_mapping.get(prediction[0], "Unknown")
+        decoded_prediction = status_mapping.get(prediction[0])
         st.success(f"🎯 Predicted Student Status: **{decoded_prediction}**")
 
      
