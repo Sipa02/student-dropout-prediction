@@ -89,8 +89,16 @@ if submitted:
         prediction = model.predict(processed_df)
 
         status_mapping = {0: "Dropout", 1: "Enrolled", 2: "Graduate"}
-        decoded_prediction = status_mapping.get(prediction[0])
-        st.success(f"🎯 Predicted Student Status: **{decoded_prediction}**")
+
+        if st.button("Make Prediction"):
+            prediction = model.predict(input_scaled)
+            predicted_class = int(prediction[0])
+            prediction_label = status_mapping.get(predicted_class, "Unknown")
+            proba = model.predict_proba(input_scaled)[0]
+
+            st.subheader(f"🎯 Predicted Status: {prediction_label}")
+            st.write(f"Confidence: {np.max(proba) * 100:.2f}%")
+
 
      
 
