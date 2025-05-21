@@ -44,7 +44,7 @@ def map_application_group(app_mode):
     else:
         return 'other'
 
-def preprocess_for_model(df):
+def preprocess_for_model(df, le_app_group, le_mother_edu, le_father_edu, le_target, is_training=True):
     # 1. Group parent education
     df['Mother_edu_group'] = df["Mother's qualification"].apply(group_parent_education)
     df['Father_edu_group'] = df["Father's qualification"].apply(group_parent_education)
