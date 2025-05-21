@@ -88,8 +88,11 @@ if submitted:
         processed_df = preprocess_for_model(input_df)
         prediction = model.predict(processed_df)
 
-        decoded_prediction = encoder_target.inverse_transform(prediction)
-        st.success(f"🎯 Predicted Student Status: **{decoded_prediction[0]}**")
+        status_mapping = {0: "Dropout", 1: "Enrolled", 2: "Graduate"}
+        decoded_prediction = status_mapping.get(prediction[0], "Unknown")
+        st.success(f"🎯 Predicted Student Status: **{decoded_prediction}**")
+
+     
 
     except Exception as e:
         st.error(f"🚨 Terjadi error saat memproses prediksi: {str(e)}")
