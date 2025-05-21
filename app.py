@@ -2,48 +2,81 @@ import streamlit as st
 import pandas as pd
 import joblib
 from preprocessing import preprocess_for_model
+from model import load_model
 
-# Load model dan encoder
-model = joblib.load("best_rf_model.joblib")
-encoder_target = joblib.load("encoder_target.joblib")
-encoder_app_group = joblib.load("label_encoder_app_group.joblib")
-encoder_mother_edu = joblib.load("label_encoder_mother_edu.joblib")
-encoder_father_edu = joblib.load("label_encoder_father_edu.joblib")
+# Load encoder
+encoder_app_group = joblib.load('label_encoder_app_group.joblib')
+encoder_mother_edu = joblib.load('label_encoder_mother_edu.joblib')
+encoder_father_edu = joblib.load('label_encoder_father_edu.joblib')
+encoder_target = joblib.load('label_encoder_target.joblib')
 
-# Title
-st.set_page_config(page_title="Prediksi Status Mahasiswa", layout="wide")
-st.title("🎓 Prediksi Status Mahasiswa")
+# Load model
+model = load_model()
 
-st.subheader("Masukkan Data Mahasiswa")
+st.title("Student Status Prediction App")
 
-# Form input satuan
-application_mode = st.selectbox("Application Mode", encoder_app_group.classes_)
-mother_edu = st.selectbox("Mother's Qualification", encoder_mother_edu.classes_)
-father_edu = st.selectbox("Father's Qualification", encoder_father_edu.classes_)
+# Form input
+with st.form("prediction_form"):
+    admission_grade = st.number_input("Admission grade", min_value=0.0, max_value=200.0, step=0.1)
+    age_at_enrollment = st.number_input("Age at enrollment", min_value=15, max_value=100, step=1)
+    
+    # Academic data
+    first_enrolled = st.number_input("1st sem enrolled", min_value=1, step=1)
+    first_eval = st.number_input("1st sem evaluations", min_value=0, step=1)
+    first_approved = st.number_input("1st sem approved", min_value=0, step=1)
+    first_no_eval = st.number_input("1st sem without evaluations", min_value=0, step=1)
 
-if st.button("Prediksi Status"):
+    second_enrolled = st.number_input("2nd sem enrolled", min_value=1, step=1)
+    second_approved = st.number_input("2nd sem approved", min_value=0, step=1)
+
+    marital_status = st.selectbox("Marital status", [1, 2, 3, 4, 5])
+    application_mode = st.selectbox("Application mode", list(range(1, 61)))
+    attendance = st.selectbox("Daytime/evening attendance", [1, 0])  # 1 = Day, 0 = Evening
+    gender = st.selectbox("Gender", [0, 1])  # 0 = Female, 1 = Male
+    international = st.selectbox("International", [0, 1])
+    scholarship = st.selectbox("Scholarship holder", [0, 1])
+    tuition_up_to_date = st.selectbox("Tuition fees up to date", [0, 1])
+    debtor = st.selectbox("Debtor", [0, 1])
+
+    # Parent education
+    mother_edu = st.number_input("Mother's qualification", min_value=1, max_value=44, step=1)
+    father_edu = st.number_input("Father's qualification", min_value=1, max_value=44, step=1)
+
+    # Target (untuk training / testing data, bisa abaikan di produksi)
+    target = st.selectbox("Target", encoder_target.classes_.tolist())
+
+    submitted = st.form_submit_button("Predict")
+
+if submitted:
     try:
-        # Buat dataframe dari input
-        input_df = pd.DataFrame([{
-            "Application_mode": application_mode,
-            "Mother_qualification": mother_edu,
-            "Father_qualification": father_edu
-        }])
+        input_data = {
+            "Admission grade": admission_grade,
+            "Age at enrollment": age_at_enrollment,
+            "Curricular units 1st sem (enrolled)": first_enrolled,
+            "Curricular units 1st sem (evaluations)": first_eval,
+            "Curricular units 1st sem (approved)": first_approved,
+            "Curricular units 1st sem (without evaluations)": first_no_eval,
+            "Curricular units 2nd sem (enrolled)": second_enrolled,
+            "Curricular units 2nd sem (approved)": second_approved,
+            "Marital status": marital_status,
+            "Application mode": application_mode,
+            "Daytime/evening attendance\t": attendance,
+            "Gender": gender,
+            "International": international,
+            "Scholarship holder": scholarship,
+            "Tuition fees up to date": tuition_up_to_date,
+            "Debtor": debtor,
+            "Mother's qualification": mother_edu,
+            "Father's qualification": father_edu,
+            "Target": target
+        }
 
-        # Preprocessing
-        df_processed = preprocess_for_model(
-            input_df,
-            le_app_group=encoder_app_group,
-            le_mother_edu=encoder_mother_edu,
-            le_father_edu=encoder_father_edu,
-            is_training=False
-        )
+        input_df = pd.DataFrame([input_data])
+        processed_df = preprocess_for_model(input_df)
+        prediction = model.predict(processed_df)
 
-        # Prediksi
-        prediction = model.predict(df_processed)
-        pred_label = encoder_target.inverse_transform(prediction)[0]
-
-        st.success(f"✅ Prediksi Status Mahasiswa: **{pred_label}**")
+        decoded_prediction = encoder_target.inverse_transform(prediction)
+        st.success(f"Predicted Student Status: {decoded_prediction[0]}")
 
     except Exception as e:
-        st.error(f"Terjadi error saat memproses prediksi: {e}")
+        st.error(f"Terjadi error saat memproses prediksi: {str(e)}")
