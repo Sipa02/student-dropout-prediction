@@ -49,13 +49,13 @@ with st.form("prediction_form"):
 
     # Parent education
     mother_edu_display = st.selectbox("Mother's qualification", list(FIELD_MAPPINGS["Mother's qualification"].keys()))
-    mother_edu = FILED_MAPPING["Mother's qualification"]
+    mother_edu = FILED_MAPPINGS["Mother's qualification"]
     father_edu_display = st.selectbox("Father's qualification", list(FIELD_MAPPINGS["Father's qualification"].keys()))
-    father_edu = FIELD_MAPPING["Father's qualification"]
+    father_edu = FIELD_MAPPINGS["Father's qualification"]
 
     # Target (for testing only)
     encoder_target = joblib.load('label_encoder_target.joblib')
-    # target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
+    target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
 
     submitted = st.form_submit_button("Predict")
 
