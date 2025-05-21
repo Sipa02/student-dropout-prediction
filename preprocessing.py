@@ -44,7 +44,9 @@ def map_application_group(app_mode):
     else:
         return 'other'
 
-def preprocess_for_model(df):
+def preprocess_for_model(df, is_train=False):
+    df = df.copy()
+
     # 1. Group parent education
     df['Mother_edu_group'] = df["Mother's qualification"].apply(group_parent_education)
     df['Father_edu_group'] = df["Father's qualification"].apply(group_parent_education)
@@ -79,16 +81,24 @@ def preprocess_for_model(df):
     df['application_group'] = le_app_group.transform(df['application_group'])
     df['Mother_edu_group'] = le_mother_edu.transform(df['Mother_edu_group'])
     df['Father_edu_group'] = le_father_edu.transform(df['Father_edu_group'])
-    df['Target'] = le_target.transform(df['Target'])
 
-    # 6. Urutkan fitur agar cocok dengan model
-    final_feature_order = [
+    # Hanya encode 'Target' saat training
+    if is_train and 'Target' in df.columns:
+        df['Target'] = le_target.transform(df['Target'])
+
+    # 6. Urutkan fitur
+    feature_order = [
         "Admission grade", "Age at enrollment", "eval_ratio_1st", "approval_rate_1st",  
         "approval_rate_2nd", "eval_miss_rate_1st", "total_approved", "total_enrolled",
         "overall_approval_rate", "Marital status", "application_group", "Daytime/evening attendance\t",
         "Gender", "International", "Scholarship holder", "Tuition fees up to date",	
-        "Debtor", "Mother_edu_group", "Father_edu_group", "Target"
+        "Debtor", "Mother_edu_group", "Father_edu_group"
     ]
-    df = df[final_feature_order]
+
+    # Tambahkan Target jika ada
+    if is_train and 'Target' in df.columns:
+        feature_order.append('Target')
+
+    df = df[feature_order]
 
     return df
