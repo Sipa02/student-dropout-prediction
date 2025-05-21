@@ -49,7 +49,7 @@ with st.form("prediction_form"):
 
     # Parent education
     mother_edu_display = st.selectbox("Mother's qualification", list(FIELD_MAPPINGS["Mother's qualification"].keys()))
-    mother_edu = FILED_MAPPINGS["Mother's qualification"]
+    mother_edu = FIELD_MAPPINGS["Mother's qualification"]
     father_edu_display = st.selectbox("Father's qualification", list(FIELD_MAPPINGS["Father's qualification"].keys()))
     father_edu = FIELD_MAPPINGS["Father's qualification"]
 
