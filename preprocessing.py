@@ -1,6 +1,6 @@
 import joblib
 
-# Load encoder dari file joblib
+# Load encoder dari file joblib (di-load sekali saja)
 le_app_group = joblib.load('label_encoder_app_group.joblib')
 le_mother_edu = joblib.load('label_encoder_mother_edu.joblib')
 le_father_edu = joblib.load('label_encoder_father_edu.joblib')
@@ -44,7 +44,7 @@ def map_application_group(app_mode):
     else:
         return 'other'
 
-def preprocess_for_model(df, le_app_group, le_mother_edu, le_father_edu, le_target, is_training=True):
+def preprocess_for_model(df):
     # 1. Group parent education
     df['Mother_edu_group'] = df["Mother's qualification"].apply(group_parent_education)
     df['Father_edu_group'] = df["Father's qualification"].apply(group_parent_education)
@@ -75,13 +75,13 @@ def preprocess_for_model(df, le_app_group, le_mother_edu, le_father_edu, le_targ
     ]
     df.drop(columns=cols_to_drop, inplace=True)
 
-    # 5. Transform fitur kategorikal dengan encoder yang telah diload
+    # 5. Transform fitur kategorikal
     df['application_group'] = le_app_group.transform(df['application_group'])
     df['Mother_edu_group'] = le_mother_edu.transform(df['Mother_edu_group'])
     df['Father_edu_group'] = le_father_edu.transform(df['Father_edu_group'])
     df['Target'] = le_target.transform(df['Target'])
 
-    # 6. Urutkan fitur agar sama dengan yang dipakai model
+    # 6. Urutkan fitur agar cocok dengan model
     final_feature_order = [
         "Admission grade", "Age at enrollment", "eval_ratio_1st", "approval_rate_1st",  
         "approval_rate_2nd", "eval_miss_rate_1st", "total_approved", "total_enrolled",
