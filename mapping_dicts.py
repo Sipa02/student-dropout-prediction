@@ -97,10 +97,12 @@ FIELD_MAPPINGS = {
         "Change of institution/course": 51,
         "Short cycle diploma holders": 53,
         "Change of institution/course (International)": 57
-}
-
-
-
+    },
+    "Target" : {
+        "Droput": 0,
+        "Enrolled": 1,
+        "Graduate":2
+    }
 
 }
     
