@@ -68,7 +68,7 @@ def preprocess_for_model(df):
         "Curricular units 1st sem (enrolled)",
         "Curricular units 1st sem (evaluations)",
         "Curricular units 1st sem (approved)",
-        "Curricular units 1st sem (grade)",
+        # "Curricular units 1st sem (grade)",
         "Curricular units 1st sem (without evaluations)",
         "Curricular units 2nd sem (enrolled)",
         "Curricular units 2nd sem (approved)"
