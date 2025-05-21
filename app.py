@@ -52,16 +52,13 @@ with st.form("prediction_form"):
     mother_edu_display = st.selectbox("Mother's qualification", list(FIELD_MAPPINGS["Mother's qualification"].keys()))
     mother_edu = FIELD_MAPPINGS["Mother's qualification"][mother_edu_display]
     father_edu_display = st.selectbox("Father's qualification", list(FIELD_MAPPINGS["Father's qualification"].keys()))
-    father_edu = FIELD_MAPPINGS["Father's qualification"][mother_edu_display]
-
-    # Target (for testing only)
-    # encoder_target = joblib.load('label_encoder_target.joblib')
-    # target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
+    father_edu = FIELD_MAPPINGS["Father's qualification"][father_edu_display]
 
     submitted = st.form_submit_button("Predict")
 
 if submitted:
     try:
+        # Jangan masukkan Target!
         input_data = {
             "Admission grade": admission_grade,
             "Age at enrollment": age_at_enrollment,
@@ -80,27 +77,21 @@ if submitted:
             "Tuition fees up to date": tuition_up_to_date,
             "Debtor": debtor,
             "Mother's qualification": mother_edu,
-            "Father's qualification": father_edu,
-            "Target": target
+            "Father's qualification": father_edu
         }
 
         input_df = pd.DataFrame([input_data])
         processed_df = preprocess_for_model(input_df)
-        prediction = model.predict(processed_df)
 
         status_mapping = {0: "Dropout", 1: "Enrolled", 2: "Graduate"}
 
-        if st.button("Make Prediction"):
-            prediction = model.predict(input_scaled)
-            predicted_class = int(prediction[0])
-            prediction_label = status_mapping.get(predicted_class, "Unknown")
-            proba = model.predict_proba(input_scaled)[0]
+        prediction = model.predict(processed_df)
+        predicted_class = int(prediction[0])
+        prediction_label = status_mapping.get(predicted_class, "Unknown")
+        proba = model.predict_proba(processed_df)[0]
 
-            st.subheader(f"🎯 Predicted Status: {prediction_label}")
-            st.write(f"Confidence: {np.max(proba) * 100:.2f}%")
-
-
-     
+        st.subheader(f"🎯 Predicted Status: {prediction_label}")
+        st.write(f"Confidence: {np.max(proba) * 100:.2f}%")
 
     except Exception as e:
         st.error(f"🚨 Terjadi error saat memproses prediksi: {str(e)}")
