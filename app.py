@@ -2,11 +2,12 @@ import streamlit as st
 import pandas as pd
 import joblib
 from preprocessing import preprocess_for_model
+from mapping_dict import FIELD_MAPPINGS
 
 # Load model
 model = joblib.load('best_rf_model.joblib')
 
-st.title("Student Status Prediction App")
+st.title("🎓 Student Status Prediction App")
 
 # Form input
 with st.form("prediction_form"):
@@ -22,22 +23,37 @@ with st.form("prediction_form"):
     second_enrolled = st.number_input("2nd sem enrolled", min_value=1, step=1)
     second_approved = st.number_input("2nd sem approved", min_value=0, step=1)
 
-    marital_status = st.selectbox("Marital status", [1, 2, 3, 4, 5])
+    # Pilihan dengan mapping
+    marital_display = st.selectbox("Marital status", list(FIELD_MAPPINGS["Marital status"].keys()))
+    marital_status = FIELD_MAPPINGS["Marital status"][marital_display]
+
     application_mode = st.selectbox("Application mode", list(range(1, 61)))
-    attendance = st.selectbox("Daytime/evening attendance", [1, 0])  # 1 = Day, 0 = Evening
-    gender = st.selectbox("Gender", [0, 1])  # 0 = Female, 1 = Male
-    international = st.selectbox("International", [0, 1])
-    scholarship = st.selectbox("Scholarship holder", [0, 1])
-    tuition_up_to_date = st.selectbox("Tuition fees up to date", [0, 1])
-    debtor = st.selectbox("Debtor", [0, 1])
+
+    attendance_display = st.selectbox("Daytime/evening attendance", list(FIELD_MAPPINGS["Daytime/evening attendance\t"].keys()))
+    attendance = FIELD_MAPPINGS["Daytime/evening attendance\t"][attendance_display]
+
+    gender_display = st.selectbox("Gender", list(FIELD_MAPPINGS["Gender"].keys()))
+    gender = FIELD_MAPPINGS["Gender"][gender_display]
+
+    international_display = st.selectbox("International", list(FIELD_MAPPINGS["International"].keys()))
+    international = FIELD_MAPPINGS["International"][international_display]
+
+    scholarship_display = st.selectbox("Scholarship holder", list(FIELD_MAPPINGS["Scholarship holder"].keys()))
+    scholarship = FIELD_MAPPINGS["Scholarship holder"][scholarship_display]
+
+    tuition_display = st.selectbox("Tuition fees up to date", list(FIELD_MAPPINGS["Tuition fees up to date"].keys()))
+    tuition_up_to_date = FIELD_MAPPINGS["Tuition fees up to date"][tuition_display]
+
+    debtor_display = st.selectbox("Debtor", list(FIELD_MAPPINGS["Debtor"].keys()))
+    debtor = FIELD_MAPPINGS["Debtor"][debtor_display]
 
     # Parent education
     mother_edu = st.number_input("Mother's qualification", min_value=1, max_value=44, step=1)
     father_edu = st.number_input("Father's qualification", min_value=1, max_value=44, step=1)
 
-    # Target (untuk training/testing, bisa diabaikan saat produksi)
-    # encoder_target = joblib.load('label_encoder_target.joblib')
-    # target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
+    # Target (for testing only)
+    encoder_target = joblib.load('label_encoder_target.joblib')
+    target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
 
     submitted = st.form_submit_button("Predict")
 
@@ -49,13 +65,12 @@ if submitted:
             "Curricular units 1st sem (enrolled)": first_enrolled,
             "Curricular units 1st sem (evaluations)": first_eval,
             "Curricular units 1st sem (approved)": first_approved,
-            # "Curricular units 1st sem (grade)":  
             "Curricular units 1st sem (without evaluations)": first_no_eval,
             "Curricular units 2nd sem (enrolled)": second_enrolled,
             "Curricular units 2nd sem (approved)": second_approved,
             "Marital status": marital_status,
             "Application mode": application_mode,
-            "Daytime/evening attendance": attendance,  # removed \t
+            "Daytime/evening attendance\t": attendance,
             "Gender": gender,
             "International": international,
             "Scholarship holder": scholarship,
@@ -67,9 +82,6 @@ if submitted:
         }
 
         input_df = pd.DataFrame([input_data])
-        # Rename column to match model expectation
-        input_df.rename(columns={"Daytime/evening attendance": "Daytime/evening attendance\t"}, inplace=True)
-
         processed_df = preprocess_for_model(input_df)
         prediction = model.predict(processed_df)
 
