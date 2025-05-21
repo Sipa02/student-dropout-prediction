@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import joblib
 from preprocessing import preprocess_for_model
 from mapping_dicts import FIELD_MAPPINGS
