@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 from preprocessing import preprocess_for_model
-from mapping_dict import FIELD_MAPPINGS
+from mapping_dicts import FIELD_MAPPINGS
 
 # Load model
 model = joblib.load('best_rf_model.joblib')
