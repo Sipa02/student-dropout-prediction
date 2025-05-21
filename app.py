@@ -36,8 +36,8 @@ with st.form("prediction_form"):
     father_edu = st.number_input("Father's qualification", min_value=1, max_value=44, step=1)
 
     # Target (untuk training/testing, bisa diabaikan saat produksi)
-    encoder_target = joblib.load('label_encoder_target.joblib')
-    target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
+    # encoder_target = joblib.load('label_encoder_target.joblib')
+    # target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
 
     submitted = st.form_submit_button("Predict")
 
@@ -49,6 +49,7 @@ if submitted:
             "Curricular units 1st sem (enrolled)": first_enrolled,
             "Curricular units 1st sem (evaluations)": first_eval,
             "Curricular units 1st sem (approved)": first_approved,
+            # "Curricular units 1st sem (grade)":  
             "Curricular units 1st sem (without evaluations)": first_no_eval,
             "Curricular units 2nd sem (enrolled)": second_enrolled,
             "Curricular units 2nd sem (approved)": second_approved,
