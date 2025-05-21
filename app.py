@@ -27,7 +27,8 @@ with st.form("prediction_form"):
     marital_display = st.selectbox("Marital status", list(FIELD_MAPPINGS["Marital status"].keys()))
     marital_status = FIELD_MAPPINGS["Marital status"][marital_display]
 
-    application_mode = st.selectbox("Application mode", list(range(1, 61)))
+    application_mode_display = st.selectbox("Application mode", list(FIELD_MAPPINGS["Application mode"].keys()))
+    application_mode = FIELD_MAPPINGS["Application mode"][application_mode_display]
 
     attendance_display = st.selectbox("Daytime/evening attendance", list(FIELD_MAPPINGS["Daytime/evening attendance\t"].keys()))
     attendance = FIELD_MAPPINGS["Daytime/evening attendance\t"][attendance_display]
@@ -49,9 +50,9 @@ with st.form("prediction_form"):
 
     # Parent education
     mother_edu_display = st.selectbox("Mother's qualification", list(FIELD_MAPPINGS["Mother's qualification"].keys()))
-    mother_edu = FIELD_MAPPINGS["Mother's qualification"]
+    mother_edu = FIELD_MAPPINGS["Mother's qualification"][mother_edu_display]
     father_edu_display = st.selectbox("Father's qualification", list(FIELD_MAPPINGS["Father's qualification"].keys()))
-    father_edu = FIELD_MAPPINGS["Father's qualification"]
+    father_edu = FIELD_MAPPINGS["Father's qualification"][mother_edu_display]
 
     # Target (for testing only)
     encoder_target = joblib.load('label_encoder_target.joblib')
