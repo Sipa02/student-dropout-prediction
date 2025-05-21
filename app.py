@@ -55,8 +55,8 @@ with st.form("prediction_form"):
     father_edu = FIELD_MAPPINGS["Father's qualification"][mother_edu_display]
 
     # Target (for testing only)
-    encoder_target = joblib.load('label_encoder_target.joblib')
-    target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
+    # encoder_target = joblib.load('label_encoder_target.joblib')
+    # target = st.selectbox("Target (for testing only)", encoder_target.classes_.tolist())
 
     submitted = st.form_submit_button("Predict")
 
