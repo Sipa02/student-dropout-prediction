@@ -9,9 +9,6 @@ Tingginya tingkat dropout ini menjadi masalah serius karena berdampak pada reput
 - Penurunan Tingkat Kelulusan dan Reputasi
 Siswa yang berhenti sebelum menyelesaikan studi menurunkan rasio kelulusan, yang pada akhirnya dapat memengaruhi persepsi calon siswa dan pihak terkait terhadap kualitas institusi.
 
-- Penurunan Produktivitas Organisasi
-Pergantian karyawan yang tinggi berdampak pada hilangnya pengalaman kerja yang berharga, sehingga memengaruhi pencapaian target bisnis. Variabel seperti YearsAtCompany dan YearsWithCurrManager menjadi indikator penting untuk memahami kontribusi pengalaman terhadap stabilitas dan produktivitas tim.
-
 - Pemborosan Sumber Daya Pendidikan
 Dropout yang tinggi menyebabkan penggunaan sumber daya pendidikan, waktu, dan biaya menjadi tidak efisien karena investasi yang dilakukan tidak berbuah hasil sesuai harapan.
 
