@@ -17,27 +17,18 @@ Ketidakterdugaan jumlah siswa yang keluar mempersulit pengelolaan kelas, alokasi
 
 Manajemen Jaya Jaya Institut menyadari pentingnya deteksi dini terhadap siswa yang berisiko dropout agar dapat diberikan bimbingan khusus dan intervensi tepat waktu. Oleh karena itu, proyek ini bertujuan mengembangkan sistem prediksi risiko dropout berbasis data untuk membantu institusi mengambil langkah preventif, meningkatkan retensi siswa, dan menjaga kualitas pendidikan secara berkelanjutan.
 
-
 ### Permasalahan Bisnis
+Proyek ini berangkat dari sejumlah tantangan nyata yang dihadapi oleh institusi pendidikan, antara lain:
 
-Permasalahan bisnis yang akan diselesaikan melalui proyek ini meliputi:
+- Tingginya angka dropout mahasiswa yang melebihi 30% dalam beberapa tahun terakhir, yang berdampak pada efisiensi operasional dan reputasi institusi.
 
-1. Mengidentifikasi faktor-faktor utama yang memengaruhi tingkat dropout siswa, mulai dari aspek demografis, prestasi akademik, hingga kondisi finansial dan latar belakang keluarga.
+- Minimnya pemahaman menyeluruh mengenai faktor-faktor yang mendorong mahasiswa berhenti studi, baik dari sisi akademik, finansial, maupun latar belakang sosial.
 
-2. Mengukur pengaruh variabel-variabel seperti nilai ujian masuk, rasio kelulusan mata kuliah, dan usia saat pendaftaran terhadap risiko siswa melakukan dropout.
+- Kesulitan dalam mengidentifikasi mahasiswa yang berisiko tinggi mengalami dropout sejak dini, sehingga upaya intervensi sering kali terlambat dilakukan.
 
-3. Menganalisis pola-pola karakteristik siswa yang berisiko tinggi dropout, termasuk jumlah mata kuliah yang diambil dan diselesaikan, serta keterkaitan dengan faktor-faktor lain seperti jalur masuk dan status pembayaran.
+- Tidak adanya sistem pendukung berbasis data yang mampu membantu pihak institusi memantau dan menganalisis risiko dropout secara real-time dan terstruktur.
 
-4. Menyediakan alat bantu analisis dalam bentuk dashboard interaktif yang memudahkan pihak institusi dalam memantau, menganalisis, dan mengambil tindakan preventif terhadap siswa yang berpotensi dropout.
-
-Dengan menyelesaikan permasalahan-permasalahan tersebut, perusahaan diharapkan dapat:
-
-- Mengurangi tingkat dropout melalui intervensi dan bimbingan yang lebih tepat sasaran.
-
-- Menyusun strategi retensi siswa yang efektif berdasarkan data yang akurat.
-
-- Meningkatkan kualitas pembelajaran dan reputasi institusi secara keseluruhan.
-
+Dengan mengatasi permasalahan-permasalahan tersebut, institusi diharapkan dapat meningkatkan efektivitas strategi retensi mahasiswa, mengurangi biaya operasional akibat tingkat dropout yang tinggi, serta memperkuat citra sebagai lembaga pendidikan yang peduli terhadap keberhasilan studi mahasiswanya.
 
 ### Cakupan Proyek
 
@@ -55,7 +46,7 @@ Dengan menyelesaikan permasalahan-permasalahan tersebut, perusahaan diharapkan d
 
 3. **Modeling**
 
-    Membangun model prediktif untuk mengidentifikasi karyawan yang berpotensi keluar dari perusahaan.
+    Membangun model prediktif untuk mengidentifikasi siswa yang berpotensi keluar.
 
 4. **Pembuatan Business Dashboard**
 
@@ -70,7 +61,24 @@ Dengan menyelesaikan permasalahan-permasalahan tersebut, perusahaan diharapkan d
 
 Sumber data: [Student's Performance](https://github.com/dicodingacademy/dicoding_dataset/blob/main/students_performance/README.md)
 
-Setup environment:
+- Setup environment - Anaconda:
+```
+conda create --name main-ds python=3.9```
+
+conda activate main-ds
+
+pip install -r requirements.txt
+```
+
+- Setup environment - Shell/Terminal:
+
+``` 
+pip install pipenv 
+pipenv install
+pipenv shell
+pip install -r requirements.txt 
+```
+
 
 1. Menjalankan `notebook.ipynb`
 - Install `requirements.txt`
@@ -100,28 +108,94 @@ password : studentDropout123
 
 
 ## Business Dashboard
-
-Hasil dari analisis dan model prediktif dapat divisualisasikan dalam bentuk dashboard untuk membantu tim HR memantau dan memahami attrition secara real-time. Berikut adalah elemen-elemen yang dapat disertakan dalam dashboard:
-1. **Distribusi Attrition**:
-   - Visualisasi attrition per Departemen dan JobRole.
+Hasil analisis dan model prediktif divisualisasikan dalam dashboard untuk membantu tim Manajemen Jaya Jaya Institut memantau dan memahami faktor-faktor yang memengaruhi tingkat dropout siswa. Berikut adalah elemen-elemen utama dalam dashboard:
+1. **Distribusi Siswa berdasarkan Status**:
+   - Visualisasi jumlah siswa berdasarkan status (dropout, aktif, lulus)
 2. **Feature Importance**:
-   - Visualisasi kontribusi 5 fitur paling penting terhadap risiko attrition berdasarkan model Logistic Regression.
-3. **Prediksi Risiko**:
-   - Menampilkan daftar karyawan dengan risiko tinggi berdasarkan hasil prediksi model Logistic Regression.
+   - Visualisasi 10 fitur yang berpengaruh terhadap tingkat dropout siswa berdasarkan model Random Forest.
+
+## Menjalankan Sistem Machine Learning
+
+**Live Demo**: [Streamlit App](https://student-dropout-prediction-wqkmsvfa765gpc8fxayi33.streamlit.app/)
+
+**Jalankan di lokal**:
+
+```
+pip install -r requirements.txt
+streamlit run app.py
+```
 
 
 ## Conclusion
 
-Proyek ini berhasil mencapai tujuan utama yaitu:
-1. **Mengidentifikasi faktor utama penyebab attrition**:
-   - Faktor terpenting adalah rasio kelulusan seluruh mata kuliah (**overall_approval_rate**), rasio kelulusan mata kuliah di semester 2 (**approval_rate_2nd**), dan nilai ujian masuk (**Admission grade**).
+Proyek ini bertujuan untuk memahami faktor-faktor yang memengaruhi tingkat **dropout** (keluar) siswa di **Jaya Jaya Institut** dan membangun model prediktif untuk mengidentifikasi siswa dengan risiko keluar tinggi. Berikut adalah temuan utama dan insight yang diperoleh:
 
-2. **Membangun model prediktif yang akurat**:
-   - Model Random Forest memberikan performa yang baik dengan **Recall 81%** dan metrik lainnya memiliki nilai yang sedikit lebih tinggi.
+#### **1. Faktor-Faktor Penyebab dropout**
+Berdasarkan hasil analisis model Random Forest, berikut adalah faktor-faktor utama yang berkontribusi terhadap kemungkinan seorang mahasiswa mengalami dropout:
+1. **overall_approval_rate**:
+   - Mahasiswa dengan rasio kelulusan seluruh mata kuliahnya rendah cenderung mengalami kesulitan akademik, yang menjadi indikator kuat terhadap risiko dropout.
+   
 
-3. **Memberikan rekomendasi actionable**:
-   - Tim Manajemen Jaya Jaya Institut dapat mengimplementasikan kebijakan untuk mengurangi tingkat siswa dropout.
+2. **approval_rate_2nd**:
+   - Semester kedua mencerminkan adaptasi lanjutan mahasiswa terhadap sistem perkuliahan. Jika performanya menurun atau tetap rendah, besar kemungkinan mahasiswa mulai kehilangan motivasi atau mengalami tekanan akademik.
+   
 
+3. **Admission grade**:
+   - Mahasiswa dengan nilai masuk rendah cenderung memiliki kesiapan akademik yang kurang, sehingga berisiko lebih tinggi untuk tidak dapat mengikuti beban studi.
+
+4. **Fitur Pendukung Lain**:
+   - Selain ketiga fitur utama di atas, terdapat pula beberapa fitur pendukung lain yang turut memengaruhi keputusan mahasiswa untuk dropout, seperti jumlah total mata kuliah yang lulus (total_approved), persentase kelulusan semester pertama (approval_rate_1st), tingkat keikutsertaan evaluasi di awal studi (eval_ratio_1st), serta kondisi pembayaran biaya kuliah (tuition fees up to date). Faktor-faktor ini secara kolektif memberikan gambaran mengenai konsistensi performa akademik, keterlibatan mahasiswa, dan dukungan finansial yang mereka miliki. Meskipun pengaruhnya tidak sebesar tiga fitur utama, keberadaan fitur-fitur ini tetap penting untuk memberikan konteks yang lebih menyeluruh dalam memprediksi risiko dropout.
+
+#### **2. Pemilihan Model Prediktif**
+Setelah melakukan evaluasi beberapa algoritma, model terbaik yang dipilih adalah Regression, dengan alasan model ini memiliki recall yang lebih tinggi daripada model lain.
+- **Accuracy**: 82%
+- **Precision**: 85%
+- **Recall**: 81%
+- **F1-Score**: 83%
+
+
+#### **3. Feature Importance**
+Dari analisis feature importance menggunakan model Random Forest:
+- **overall_approval_rate** menjadi prediktor terkuat terhadap risiko dropout.
+- **approval_rate_2nd** dan **Admission grade** juga memiliki peran penting.
+
+
+---
+
+### **Jawaban terhadap Pertanyaan Bisnis**
+1. **Apa faktor utama yang memengaruhi dropout?**
+   - **overall_approval_rate**, **approval_rate_2nd**, dan **Admission grade** menjadi faktor dominan.
+
+2. **Bagaimana pengaruh latar belakang pendidikan orang tua terhadap risiko dropout, dan bagaimana institusi pendidikan dapat merespons temuan ini?**
+   - Latar belakang pendidikan orang tua memiliki pengaruh terhadap risiko dropout siswa, meskipun tidak sebesar faktor-faktor akademik seperti nilai ujian masuk atau tingkat kelulusan mata kuliah. Siswa yang orang tuanya memiliki pendidikan yang lebih rendah cenderung menghadapi risiko dropout yang sedikit lebih tinggi. Hal ini mungkin disebabkan oleh keterbatasan dukungan akademik dan motivasi di lingkungan rumah.
+
+3. **Apa pola umum dari siswa berisiko tinggi dropout?**
+   - Umumnya adalah siswa yang ratio kelulusan mata kuliahnya rendah.
+
+4. **Apakah kita bisa memonitor risiko dropout secara aktif?**
+   - Ya, model prediktif yang dibangun dapat diintegrasikan ke dalam dashboard sebagai alat bantu pemantauan real-time.
+
+---
+
+### **Karakteristik Umum siswa yang Melakukan dropout**
+Berdasarkan analisis data, berikut adalah karakteristik umum siswa yang melakukan dropout:
+- **Status Perkawinan**: Mayoritas siswa yang dropout adalah yang masih menikah secara hukum tapi sudah pisah secara legal, menikah, atau cerai.
+- **Kelas dan Demografi**: Kebanyakan siswa perempuan, mengikuti kelas malam, bukan mahasiswa internasional, dan tidak menggunakan beasiswa.
+- **Keuangan**: Siswa yang belum membayar SPP dan memiliki pinjaman lebih rentan dropout.
+- **Jalur Masuk**: Siswa yang masuk lewat jalur usia di atas 23 tahun, jalur peraturan pemerintah, atau yang sudah pernah kuliah/diploma khusus.
+- **Latar Belakang Orang Tua**: Orang tua dengan pendidikan rendah atau tidak sekolah.
+- **Faktor Akademik**:
+   - Nilai ujian masuk rendah.
+
+   - Usia saat enrollment tinggi.
+
+   - Rasio kelulusan mata kuliah (approval_rate_1st, approval_rate_2nd, overall_approval_rate) jauh dari sempurna.
+
+   - Jumlah mata kuliah lulus dan diambil selama 2 semester di bawah 10.
+
+
+
+---
 
 ### **Rekomendasi Action Items untuk Institut**
 1. **Optimalkan Beban Studi dan Pengambilan Mata Kuliah**:
