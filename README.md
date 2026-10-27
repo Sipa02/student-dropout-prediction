@@ -102,8 +102,8 @@ docker run -p 5000:3000 --name student-dropout metabase/metabase
 - Login ke Metabase menggunakan username dan password berikut:
 
 ```
-username : spectre02black@gmail.com
-password : studentDropout123
+username : 
+password : 
 ```
 
 
